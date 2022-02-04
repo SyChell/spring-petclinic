@@ -35,12 +35,12 @@ stages:
         mavenPomFile: 'pom.xml'
         publishJUnitResults: true
         testResultsFiles: '**/surefire-reports/TEST-*.xml'
-        # codeCoverageToolOption: 'JaCoCo'
-        # codeCoverageRestoreOriginalPomXml: true
-        # javaHomeOption: 'JDKVersion'
-        # mavenVersionOption: 'Default'
-        # mavenAuthenticateFeed: false
-        # effectivePomSkip: false
+        codeCoverageToolOption: 'JaCoCo'
+        codeCoverageRestoreOriginalPomXml: true
+        javaHomeOption: 'JDKVersion'
+        mavenVersionOption: 'Default'
+        mavenAuthenticateFeed: false
+        effectivePomSkip: false
         # sonarQubeRunAnalysis: false
         
     # - task: CopyFiles@2
