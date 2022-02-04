@@ -42,7 +42,7 @@ stages:
         # mavenAuthenticateFeed: false
         # effectivePomSkip: false
         # sonarQubeRunAnalysis: false
-    - task: SonarQubeAnalyze@5
+
     - task: PublishCodeCoverageResults@1
       inputs:
         codeCoverageTool: 'JaCoCo'
