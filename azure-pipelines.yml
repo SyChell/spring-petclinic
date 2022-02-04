@@ -41,17 +41,17 @@ stages:
         mavenVersionOption: 'Default'
         mavenAuthenticateFeed: false
         effectivePomSkip: false
-        # sonarQubeRunAnalysis: false
+        sonarQubeRunAnalysis: false
         
-    # - task: CopyFiles@2
-    #   displayName: 'Copy Files to artifact staging directory'
-    #   inputs:
-    #     SourceFolder: '$(System.DefaultWorkingDirectory)'
-    #     Contents: '**/target/*.?(war|jar)'
-    #     TargetFolder: $(Build.ArtifactStagingDirectory)
+    - task: CopyFiles@2
+      displayName: 'Copy Files to artifact staging directory'
+      inputs:
+        SourceFolder: '$(System.DefaultWorkingDirectory)'
+        Contents: '**/target/*.?(war|jar)'
+        TargetFolder: $(Build.ArtifactStagingDirectory)
 
-    # - upload: $(Build.ArtifactStagingDirectory)
-    #   artifact: drop
+    - publish: $(Build.ArtifactStagingDirectory)
+      artifact: drop
 
 # - stage: Deploy
 #   displayName: Deploy stage
