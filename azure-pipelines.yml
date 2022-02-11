@@ -71,6 +71,17 @@ stages:
       runOnce:
         deploy:
           steps:
+          - pwsh: |
+              $commentUrl = "https://dev.azure.com/syrinechelly/spring-petclinic/_apis/git/repositories/main/pullRequests/$env:PULLREQUESTID/threads?api-version=6.0"
+              $body = "{""status"":""active"",""comments"":[{""content"":""hello world"",""parentCommentId"":0,""commentType"":1}]}"
+              $headers = @{"Authorization" = "Bearer $env:SYSTEM_ACCESSTOKEN"; "Content-type" = "application/json"}
+              Invoke-RestMethod -UrI $commentUrl -Method "POST" -Body $body -Headers $headers
+              # curl -X 'PATCH'\
+              #  'https://dev.azure.com/syrinechelly/spring-petclinic/_apis/git/repositories/main/pullrequests/$env:PULLREQUESTID?api-version=6.0' 
+              #   H 'Authorization: $env:SYSTEM_ACCESSTOKEN'
+            env:
+              SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+              PULLREQUESTID: $(System.PullRequest.PullRequestId)
           - task: AzureWebApp@1
             displayName: 'Azure Web App Deploy: petclinic-webapp'
             inputs:
@@ -78,15 +89,4 @@ stages:
               appType: webAppLinux
               appName: $(webAppName)
               package: '$(Pipeline.Workspace)/drop/**/target/*.?(war|jar)'
-    steps:
-    - pwsh: |
-        $commentUrl = "https://dev.azure.com/syrinechelly/spring-petclinic/_apis/git/repositories/main/pullRequests/$env:PULLREQUESTID/threads?api-version=6.0"
-        $body = "{""status"":""active"",""comments"":[{""content"":""hello world"",""parentCommentId"":0,""commentType"":1}]}"
-        $headers = @{"Authorization" = "Bearer $env:SYSTEM_ACCESSTOKEN"; "Content-type" = "application/json"}
-        Invoke-RestMethod -UrI $commentUrl -Method "POST" -Body $body -Headers $headers
-        # curl -X 'PATCH'\
-        #  'https://dev.azure.com/syrinechelly/spring-petclinic/_apis/git/repositories/main/pullrequests/$env:PULLREQUESTID?api-version=6.0' 
-        #   H 'Authorization: $env:SYSTEM_ACCESSTOKEN'
-      env:
-        SYSTEM_ACCESSTOKEN: $(System.AccessToken)
-        PULLREQUESTID: $(System.PullRequest.PullRequestId)
+
